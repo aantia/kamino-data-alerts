@@ -1,4 +1,5 @@
 import { clusterApiUrl, Connection, PublicKey } from '@solana/web3.js';
+const say = require('say');
 
 // import Kamino from "@hubbleprotocol/kamino-lending-sdk";
 
@@ -18,6 +19,11 @@ const accountBalance = await connection.getTokenAccountBalance(jlpAccount)
 console.log(accountBalance)
 
 // if accountbalance.value.uiAmount > 8000000, use the microsoft voice API to say "KAMINO KAMINO KAMINO"
+setInterval(() => {
+    if (accountBalance.value.uiAmount > 8000000) {
+        say.speak('KAMINO KAMINO KAMINO');
+    }
+}, 10000); // 10000 milliseconds = 10 seconds
 
 
 //const reserve = await Kamino.KaminoMarket.prototype.getReservesForMarket

@@ -17,6 +17,7 @@
   },
   "homepage": "https://github.com/aantia/kamino-data-alerts#readme",
   "dependencies": {
-    "@hubbleprotocol/kamino-lending-sdk": "^2.9.1"
+    "@hubbleprotocol/kamino-lending-sdk": "^2.9.1",
+    "say": "^0.16.0"
   }
 }
