@@ -17,8 +17,6 @@
   },
   "homepage": "https://github.com/aantia/kamino-data-alerts#readme",
   "dependencies": {
-    "@hubbleprotocol/kamino-lending-sdk": "^2.9.1",
-    "@solana/web3.js": "^1.90.0",
-    "decimal.js": "^10.4.3"
+    "@hubbleprotocol/kamino-lending-sdk": "^2.9.1"
   }
 }
