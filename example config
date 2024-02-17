@@ -1,0 +1,8 @@
+# The address of the wallet that will be monitored
+ADDRESS=7dD6bhVgWtxyQPDAuM6Vprd22K7H6xzDYdsUbg9B3KUC
+# If the amount changes by this much, send an alert
+THRESHOLD=100
+# The message to read out
+MESSAGE='KAMINO JLP KAMINO JLP KAMINO JLP'
+# How often to check the wallet, in seconds
+INTERVAL=5

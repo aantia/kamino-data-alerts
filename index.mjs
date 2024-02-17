@@ -1,50 +1,16 @@
 import { clusterApiUrl, Connection, PublicKey } from '@solana/web3.js';
-const say = require('say');
-
-// import Kamino from "@hubbleprotocol/kamino-lending-sdk";
-
-// console.log(clusterApiUrl('mainnet-beta'))
+import say from 'say';
 const connection = new Connection(clusterApiUrl('mainnet-beta'));
-// console.log("ping")
-// const exampleKey = new PublicKey("7u3HeHxYDLhnCoErrtycNokbQYbWGzLs6JSDqGAv5PfF")
-console.log(await connection.getBalance(exampleKey))//connection works
-// //7dD6bhVgWtxyQPDAuM6Vprd22K7H6xzDYdsUbg9B3KUC // jlp holding account
-// const markets = await Kamino.getMarketsFromApi()
-// console.log(markets)
-// //const market = await Kamino.KaminoMarket.load(connection, new PublicKey("7u3HeHxYDLhnCoErrtycNokbQYbWGzLs6JSDqGAv5PfF"))
-// //console.log(market)
 
-const jlpAccount = new PublicKey("7dD6bhVgWtxyQPDAuM6Vprd22K7H6xzDYdsUbg9B3KUC")
-const accountBalance = await connection.getTokenAccountBalance(jlpAccount)
-console.log(accountBalance)
+const targetAddress = new PublicKey(process.env.ADDRESS)
+const initialBalance = await connection.getTokenAccountBalance(targetAddress)
+console.log("Initial balance: ", initialBalance.value.uiAmount)
 
-// if accountbalance.value.uiAmount > 8000000, use the microsoft voice API to say "KAMINO KAMINO KAMINO"
-setInterval(() => {
-    if (accountBalance.value.uiAmount > 8000000) {
-        say.speak('KAMINO KAMINO KAMINO');
+setInterval(async () => {
+    const currentBalance = await connection.getTokenAccountBalance(targetAddress)
+    const absDifference = Math.abs(currentBalance.value.uiAmount - initialBalance.value.uiAmount)
+    console.log("Current balance:", currentBalance.value.uiAmount, " |  Difference:", absDifference)
+    if (absDifference > process.env.THRESHOLD) {
+        say.speak(process.env.MESSAGE);
     }
-}, 10000); // 10000 milliseconds = 10 seconds
-
-
-//const reserve = await Kamino.KaminoMarket.prototype.getReservesForMarket
-
-// // There are three levels of data you can request (and cache) about the lending market.
-// // 1. Initalize market with parameters and metadata
-// const market = await KaminoMarket.load(
-//     connection,
-//     new PublicKey("7u3HeHxYDLhnCoErrtycNokbQYbWGzLs6JSDqGAv5PfF") // main market address. Defaults to 'Main' market
-// );
-// console.log(market.reserves.map((reserve) => reserve.config.loanToValueRatio));
-
-// // 2. Refresh reserves
-// await market.loadReserves();
-
-// const usdcReserve = market.getReserve("USDC");
-// console.log(usdcReserve?.stats.totalDepositsWads.toString());
-
-
-// // Refresh all cached data
-// market.refreshAll();
-
-// //   const obligation = market.getObligationByWallet("WALLET_PK");
-// //   console.log(obligation.stats.borrowLimit);
+}, 1000 * process.env.INTERVAL); // 10000 milliseconds = 10 seconds
